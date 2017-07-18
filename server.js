@@ -1,28 +1,42 @@
-var http = require('http');  //import 
+var request=require('request');
 
-function HandleRequests(req, res) {
+var result=request('https://jsonplaceholder.typicode.com/users');
 
-    switch (req.url) {
-        default:
-        case '/':
-            res.write("hello nodejs");
-            res.end();
-            break;
-        case '/products':
-            res.write("Showing products");
-            res.end();
-            break;
-        case '/books':
-            res.write("Showing books");
-            res.end();
-            break;
-    }
-}
+result.on('data',function(data){
+    console.log(data.toString());
+});
 
-var server = http.createServer(HandleRequests);
 
-server.listen(3000);
 
-console.log('Server is running on 3000');
+
+
+
+
+// var http = require('http');  //import 
+
+// var HandleRequests=require('./handler');
+
+// var server = http.createServer(HandleRequests);
+
+// server.listen(3000);
+
+// console.log('Server is running on 3000');
+
+
+// var os = require('os');
+
+// console.log(os.cpus().length);
+// console.log(os.hostname());
+
+// var fs = require('fs');
+
+// var data = fs.readFileSync('test.txt');
+
+// console.log(data.toString());
+
+// fs.writeFile('test.txt',"Append data to this file",function(){});
+
+
+
 
 
