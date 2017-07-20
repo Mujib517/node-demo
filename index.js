@@ -1,6 +1,7 @@
 //SRP 
 
 const express = require('express');
+const mongoose=require('mongoose');  //ODM 
 
 let productCtrl = require('./productCtrl');
 const middlewares=require('./middlewares');
@@ -11,6 +12,11 @@ let app = express();
 app.listen(3000, function () {
     console.log("Server running on 3000");
 });
+
+mongoose.connect("mongodb://localhost:moviesDb",function(){
+    console.log('Connected');
+});
+
 
 //public routes
 app.get('/', function (req, res) {
