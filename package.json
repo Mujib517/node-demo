@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Mujib517/node-demo#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mongoose": "^4.11.3",
     "request": "^2.81.0"
