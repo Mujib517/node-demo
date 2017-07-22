@@ -1,9 +1,9 @@
 let mongoose = require('mongoose');
 
 let blogModel = mongoose.Schema({
-    title: String,
-    content: String,
-    lastUpdated: Date,
+    title: { type: String, required: true },
+    content: { type: String, required: true },
+    lastUpdated: { type: String, required: true,default:Date.now },
     published: Boolean
 });
 

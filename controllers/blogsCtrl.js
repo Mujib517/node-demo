@@ -1,18 +1,57 @@
 var Blog = require('./../models/blogModel');
+let moment = require('moment');
 
 let blogsCtrl = function () {
 
     let get = function (req, res) {
-        Blog.find(function (err, blogs) {
-            if (!err) {
+        // Blog.find(function (err, blogs) {
+        //     if (!err) {
+        //         res.status(200);
+        //         res.json(blogs);
+        //     }
+        //     else {
+        //         res.status(500);
+        //         res.send("Internal Server Error");
+        //     }
+        // });
+
+        let pageIndex = req.params.pageIndex | 0;
+        let pageSize = req.params.pageSize | 2;
+
+        // if (!pageIndex) pageIndex = 0;  null, undefined, false , "",0
+        // if (!pageSize) pageSize = 2;
+
+
+
+        let count = 0;
+
+        var queryCount = Blog.count().exec()
+            .then(function (cnt) {
+                count = cnt;
+            });
+
+        var query = Blog
+            .find()
+            .sort("lastUpdated")
+            .limit(pageSize)
+            .skip(pageIndex * pageSize);  //Deferred execution
+
+        query.exec()
+            .then(function (blogs) {
                 res.status(200);
-                res.json(blogs);
-            }
-            else {
+                let response = {
+                    data: blogs,
+                    metadata: {
+                        count: count,
+                        pages: Math.ceil(count / pageSize)
+                    }
+                };
+                res.json(response);
+            })
+            .catch(function (err) {
                 res.status(500);
                 res.send("Internal Server Error");
-            }
-        });
+            });
     };
 
     let post = function (req, res) {
@@ -27,7 +66,7 @@ let blogsCtrl = function () {
             else {
                 console.log(err); //logged 
                 res.status(500);
-                res.send("Internal Server Error");
+                res.send(err);
             }
         });
     };
@@ -37,6 +76,7 @@ let blogsCtrl = function () {
 
         Blog.findById(id, function (err, blog) {
             if (blog) {
+                blog.updated = moment(blog.lastUpdated).format("MMM dd yyyy");
                 res.status(200);
                 res.json(blog);
             }
