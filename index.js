@@ -9,6 +9,7 @@ let jwt = require('jsonwebtoken');
 let blogsRouter = require('./routers/blogsRouter');
 let userRouter = require('./routers/userRouter');
 let defaultRouter = require('./routers/defaultRouter');
+let commentRouter = require('./routers/commentRouter');
 
 let isAuthenticated = require('./middlewares/auth');
 
@@ -27,6 +28,8 @@ app.use('/', defaultRouter);
 app.use('/user', userRouter);
 
 //check for authentication token
-app.use(isAuthenticated);
+//app.use(isAuthenticated);
 
 app.use('/blogs', blogsRouter);
+
+app.use('/comments', commentRouter);

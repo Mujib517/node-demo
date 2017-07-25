@@ -77,8 +77,17 @@ let blogsCtrl = function () {
         Blog.findById(id, function (err, blog) {
             if (blog) {
                 blog.updated = moment(blog.lastUpdated).format("MMM dd yyyy");
-                res.status(200);
-                res.json(blog);
+
+                var data = blog.toJSON();
+                data.views++;
+
+                delete data._id;
+                var updatedBlog = new Blog(data);
+
+                updatedBlog.save(function (err, savedBlog) {
+                    res.status(200);
+                    res.json(savedBlog);
+                }); //not critical
             }
             else {
                 res.status(404);

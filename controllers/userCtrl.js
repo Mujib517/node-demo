@@ -30,7 +30,13 @@ let userCtrl = function () {
         user.save(function (err, user) {
             if (!err)
                 res.status(201).send(user);
-            else res.status(500).send(err);
+            else {
+                if (err.errmsg.indexOf("duplicate key error index") > -1) {
+                    res.status(500).send("Email already exists");
+                }
+                else
+                    res.status(500).send(err);
+            }
         });
     }
 
