@@ -14,13 +14,16 @@ let commentRouter = require('./routers/commentRouter');
 let isAuthenticated = require('./middlewares/auth');
 
 
-let port = process.env.PORT | 3000;
+let port = process.env.PORT || 3000;
 
 app.listen(port, function () {
-    console.log("server running on 3000");
+    console.log("server running on "+port);
 });
 
-mongoose.connect("mongodb://localhost/blogsDb", { useMongoClient: true });
+//mongoose.connect("mongodb://localhost/blogsDb", { useMongoClient: true });
+mongoose.connect("mongodb://admin:admin@ds125053.mlab.com:25053/blgsdb", { useMongoClient: true });
+
+
 
 app.use(bodyParser.json());
 
