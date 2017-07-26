@@ -1,5 +1,6 @@
 var Blog = require('./../models/blogModel');
 let moment = require('moment');
+let Comment = require('../models/commentModel');
 
 let blogsCtrl = function () {
 
@@ -79,15 +80,17 @@ let blogsCtrl = function () {
                 blog.updated = moment(blog.lastUpdated).format("MMM dd yyyy");
 
                 var data = blog.toJSON();
-                data.views++;
+                data.views = data.views + 1;
 
-                delete data._id;
-                var updatedBlog = new Blog(data);
+                Comment.find({ blogId: id }, function (err, comments) {
+                    data.comments = comments;
 
-                updatedBlog.save(function (err, savedBlog) {
+
+                    var updatedBlog = new Blog(data);
+                    updatedBlog.update(updatedBlog,function(){}); //not critical
                     res.status(200);
-                    res.json(savedBlog);
-                }); //not critical
+                    res.json(data);
+                });
             }
             else {
                 res.status(404);
