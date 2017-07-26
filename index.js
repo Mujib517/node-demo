@@ -14,7 +14,7 @@ let commentRouter = require('./routers/commentRouter');
 let isAuthenticated = require('./middlewares/auth');
 
 
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || process.env.port || 3000;
 
 app.listen(port, function () {
     console.log("server running on "+port);
