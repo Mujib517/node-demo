@@ -4,6 +4,7 @@ let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
 
 let jwt = require('jsonwebtoken');
+let cors=require('cors');
 
 
 let blogsRouter = require('./routers/blogsRouter');
@@ -23,7 +24,8 @@ app.listen(port, function () {
 //mongoose.connect("mongodb://localhost/blogsDb", { useMongoClient: true });
 mongoose.connect("mongodb://admin:admin@ds125053.mlab.com:25053/blgsdb", { useMongoClient: true });
 
-
+//allow reqs from diff origins
+app.use(cors());
 
 app.use(bodyParser.json());
 
