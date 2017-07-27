@@ -36,3 +36,26 @@ app.use('/user', userRouter);
 app.use('/blogs', blogsRouter);
 
 app.use('/comments', commentRouter);
+
+//not found page route
+app.use('',function(req,res){
+    res.status(404);
+    res.send("Not found");
+});
+
+
+//1. Uniform Interface
+//GET  read
+//POST add
+//PUT updating data
+//Delete deleting
+
+//2. Stateless
+// no sessions
+
+//3.Cacheable
+
+//4. layered system
+
+//6. code on demand 
+
