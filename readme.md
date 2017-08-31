@@ -3,4 +3,4 @@
 To run this app
 
 1. npm install
-2. nodemon server.js
+2. nodemon index.js or node index.js
