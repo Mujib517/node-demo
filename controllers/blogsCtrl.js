@@ -29,30 +29,32 @@ let blogsCtrl = function () {
         var queryCount = Blog.count().exec()
             .then(function (cnt) {
                 count = cnt;
+
+                var query = Blog
+                    .find()
+                    .sort("lastUpdated")
+                    .limit(pageSize)
+                    .skip(pageIndex * pageSize);  //Deferred execution
+
+                query.exec()
+                    .then(function (blogs) {
+                        res.status(200);
+                        let response = {
+                            data: blogs,
+                            metadata: {
+                                count: count,
+                                pages: Math.ceil(count / pageSize)
+                            }
+                        };
+                        res.json(response);
+                    })
+                    .catch(function (err) {
+                        res.status(500);
+                        res.send("Internal Server Error");
+                    });
             });
 
-        var query = Blog
-            .find()
-            .sort("lastUpdated")
-            .limit(pageSize)
-            .skip(pageIndex * pageSize);  //Deferred execution
 
-        query.exec()
-            .then(function (blogs) {
-                res.status(200);
-                let response = {
-                    data: blogs,
-                    metadata: {
-                        count: count,
-                        pages: Math.ceil(count / pageSize)
-                    }
-                };
-                res.json(response);
-            })
-            .catch(function (err) {
-                res.status(500);
-                res.send("Internal Server Error");
-            });
     };
 
     let post = function (req, res) {
@@ -87,7 +89,7 @@ let blogsCtrl = function () {
 
 
                     var updatedBlog = new Blog(data);
-                    updatedBlog.update(updatedBlog,function(){}); //not critical
+                    updatedBlog.update(updatedBlog, function () { }); //not critical
                     res.status(200);
                     res.json(data);
                 });
